@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "bakeron",
+    "name": "BakeRon",
     "slug": "bakeron",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.deepeshgour.bakeron"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "04260be3-c1fd-420e-bb9e-bd3a3cb8fa30"
+      }
     }
   }
 }
