@@ -11,8 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { IMAGES } from '../../constants/Images';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../Navigations/RootStackParamList';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+
 
 type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>;
 
@@ -20,10 +19,6 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
 
     const theme = useTheme();
     const { colors } : {colors : any} = theme;
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
 
     const [isFocused , setisFocused] = useState(false);
     const [isFocused2 , setisFocused2] = useState(false);
@@ -42,28 +37,26 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                 </View>
                 <View style={[GlobalStyleSheet.container, { paddingHorizontal: 30, paddingTop: 20 }]}>
                     <View>
-                        <Text style={{ ...FONTS.DKDisplayPatrol, fontSize: 28, color: colors.title, marginBottom: 5,textTransform:'uppercase' }}>Sign in to your account</Text>
-                        <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.text }}>Welcome Back You've Been Missed!</Text>
+                        <Text style={{ ...FONTS.DKDisplayPatrol, fontSize: 28, color: colors.title, marginBottom: 5,textTransform:'uppercase' }}>Inicia sesión en tu cuenta</Text>
+                        <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.text }}>¡Bienvenido de nuevo, te extrañamos!</Text>
                     </View>
                     <View style={{ marginBottom: 15, marginTop: 30 }}>
-                        <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.textLight,marginBottom:5 }}>Email Address<Text style={{ color: '#FF0000' }}>*</Text></Text>
+                        <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.textLight,marginBottom:5 }}>Correo electrónico<Text style={{ color: '#FF0000' }}>*</Text></Text>
                         <CustomInput
                             onFocus={() => setisFocused(true)}
                             onBlur={() => setisFocused(false)}
                             isFocused={isFocused}
-                            onChangeText={(value: string) => setEmail(value)}
-                            value={email}
+                            onChangeText={(value: any) => console.log(value)}
                         />
                     </View>
                     <View>
-                        <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.textLight,marginBottom:5 }}>Password<Text style={{ color: '#FF0000' }}>*</Text></Text>
+                        <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.textLight,marginBottom:5 }}>Contraseña<Text style={{ color: '#FF0000' }}>*</Text></Text>
                         <CustomInput
                             onFocus={() => setisFocused2(true)}
                             onBlur={() => setisFocused2(false)}
                             isFocused={isFocused2}
                             type={'password'}
-                            onChangeText={(value: string) => setPassword(value)}
-                            value={password}
+                            onChangeText={(value: any) => console.log(value)}
                         />
                         <TouchableOpacity
                             style={{
@@ -78,26 +71,14 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                                 fontSize: 15,
                                 color: colors.text,
                             }}>
-                                Forgot Password?
+                                ¿Olvidaste la contraseña?
                             </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginTop: 72 }}>
                         <Button
-                            title={'Sign in'}
-                            onPress={async () => {
-                                if (!email || !password) {
-                                    alert("Por favor completa todos los campos");
-                                    return;
-                                }
-                                try {
-                                  await signInWithEmailAndPassword(auth, email, password);
-                                  navigation.navigate('DrawerNavigation',{screen : 'Home'});
-                                } catch (error: any) {
-                                  console.log("Error en login:", error.message);
-                                  alert("Correo o contraseña incorrectos");
-                            }  
-                            }}   
+                            title={'Iniciar sesión'}
+                            onPress={() => navigation.navigate('DrawerNavigation',{screen : 'Home'})}
                             color={theme.dark ? COLORS.white :COLORS.primary}
                             text={colors.card}
                             btnRounded
@@ -122,7 +103,7 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                                 color: colors.title,
                                 marginHorizontal: 15,
                                 fontSize: 14
-                            }}>Or continue with</Text>
+                            }}>O continua con</Text>
                             <View
                                 style={{
                                     height: 1,
@@ -134,14 +115,14 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                         <View style={{ marginBottom: 10 }}>
                             <SocialBtn
                                 icon={<Image style={{ height: 20, width: 20, resizeMode: 'contain' }} source={IMAGES.google2} />}
-                                text={'Sign in with google'}
+                                text={'Ingresar con Google'}
                                 textcolor
                             />
                         </View>
                         <View>
                             <SocialBtn
                                 icon={<FontAwesome name='apple' size={20} color={colors.title} />}
-                                text={'Sign in with apple'}
+                                text={'Ingresar con Apple'}
                                 textcolor
                             />
                         </View>
@@ -156,7 +137,7 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                         justifyContent: 'center' 
                     }]}
                 >
-                    <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.title }}>Not a member?</Text>
+                    <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.title }}>¿No lo recuerdas?</Text>
                     <TouchableOpacity
                         onPress={() => navigation.navigate('SignUp')}
                     >
@@ -164,7 +145,7 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                             ...FONTS.fontRegular,
                             fontSize:16,
                             color:COLORS.primary
-                        }}> Create an account</Text>
+                        }}> Crear una cuenta</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
