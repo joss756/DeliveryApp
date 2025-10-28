@@ -13,6 +13,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../Navigations/RootStackParamList';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 
 type SignUpScreenProps = StackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -28,6 +30,27 @@ const SignUp = ({ navigation } : SignUpScreenProps) => {
     const [isFocused , setisFocused] = useState(false);
     const [isFocused2 , setisFocused2] = useState(false);
     const [isFocused3 , setisFocused3] = useState(false);
+
+const signInWithGoogle = async () => {
+  try {
+    const response = await GoogleSignin.signIn();
+
+    // Dependiendo de la versión puede estar en response.data.idToken
+    const idToken = (response as any).idToken || response.data?.idToken;
+
+    if (!idToken) throw new Error("No se obtuvo el idToken de Google");
+
+    const googleCredential = GoogleAuthProvider.credential(idToken);
+    await signInWithCredential(auth, googleCredential);
+
+    alert("Sesión iniciada con Google");
+    navigation.navigate('Home'); // Ajusta la ruta según tu app
+  } catch (error) {
+    console.log("Error en Google Sign-In:", error);
+    alert("Error al iniciar sesión con Google");
+  }
+};
+
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -139,6 +162,7 @@ const SignUp = ({ navigation } : SignUpScreenProps) => {
                                 icon={<Image style={{ height: 20, width: 20, resizeMode: 'contain' }} source={IMAGES.google2} />}
                                 text={'Sign in with google'}
                                 textcolor
+                                onPress={signInWithGoogle}
                             />
                         </View>
                         <View>

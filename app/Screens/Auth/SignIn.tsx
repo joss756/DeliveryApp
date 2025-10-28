@@ -11,6 +11,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { IMAGES } from '../../constants/Images';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../Navigations/RootStackParamList';
+<<<<<<< HEAD
+=======
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+>>>>>>> 84cc20f (Actualización del login y conexión a base de datos)
 
 
 type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>;
@@ -22,6 +29,26 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
 
     const [isFocused , setisFocused] = useState(false);
     const [isFocused2 , setisFocused2] = useState(false);
+
+    const signInWithGoogle = async () => {
+      try {
+        const response = await GoogleSignin.signIn();
+    
+        // Dependiendo de la versión puede estar en response.data.idToken
+        const idToken = (response as any).idToken || response.data?.idToken;
+    
+        if (!idToken) throw new Error("No se obtuvo el idToken de Google");
+    
+        const googleCredential = GoogleAuthProvider.credential(idToken);
+        await signInWithCredential(auth, googleCredential);
+    
+        alert("Sesión iniciada con Google");
+        navigation.navigate('Home'); // Ajusta la ruta según tu app
+      } catch (error) {
+        console.log("Error en Google Sign-In:", error);
+        alert("Error al iniciar sesión con Google");
+      }
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -117,6 +144,7 @@ const SignIn = ({ navigation } : SignInScreenProps) => {
                                 icon={<Image style={{ height: 20, width: 20, resizeMode: 'contain' }} source={IMAGES.google2} />}
                                 text={'Ingresar con Google'}
                                 textcolor
+                                onPress={signInWithGoogle}
                             />
                         </View>
                         <View>

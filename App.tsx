@@ -6,6 +6,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Routes from './app/Navigations/Route';
 import { Provider } from 'react-redux';
 import store from './app/redux/store';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
 
 const App = () =>{
 
@@ -39,5 +41,10 @@ const App = () =>{
 		</SafeAreaProvider>
 	);
 };
+
+GoogleSignin.configure({
+  webClientId: "757429858782-vbmbm5tftemhdivp5fguq3glih13dat5.apps.googleusercontent.com",
+});
+
 
 export default App;

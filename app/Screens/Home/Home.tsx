@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useTheme } from '@react-navigation/native'
+import { useTheme, DrawerActions } from '@react-navigation/native'
 import { View, Text, SafeAreaView, Image, TouchableOpacity, StyleSheet, TextInput, Platform } from 'react-native'
 import { GlobalStyleSheet } from '../../constants/StyleSheet';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
@@ -115,7 +115,7 @@ const Home = ({navigation} : HomeScreenProps) => {
 
     const dispatch = useDispatch();
 
-    const sheetRef = useRef<any>();
+    const sheetRef = useRef<any>(null);
 
     const productSizes = ["X", "M", "S"];
 
@@ -173,7 +173,7 @@ const Home = ({navigation} : HomeScreenProps) => {
                             </View>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.openDrawer()}
+                            onPress={() => navigation.getParent()?.dispatch(DrawerActions.openDrawer())}
                         >
                             <Image
                                 style={{width:22,height:23,resizeMode:'contain'}}
